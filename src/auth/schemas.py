@@ -9,3 +9,9 @@ class Token(BaseModel):
 class TokenData(BaseModel):
     username: str | None
 
+class UserRegistration:
+    username: str
+    first_name: str
+    last_name: str
+    email: str
+    password: str
