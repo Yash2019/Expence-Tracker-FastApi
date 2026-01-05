@@ -66,5 +66,9 @@ def get_current_user(token: Token = Annotated[str, Depends(oauth_scheme)],
         raise credentials_exception
     return user
 
+def get_current_active_user(current_user: Annotated[User, Depends(get_current_user())]):
+    if current_user.is_verified:
+        raise HTTPException(status_code=404)
+    return current_user
 
 
