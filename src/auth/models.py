@@ -1,16 +1,17 @@
+
 from src.db.main import Base
 from sqlalchemy.orm import Mapped, mapped_column
 from sqlalchemy import func
-import uuid
+import uuid as uuid_pkg
 from datetime import datetime
 
 
 class User(Base):
     __tablename__ = "users"
 
-    uuid: Mapped[uuid.UUID] = mapped_column(
+    uuid: Mapped[uuid_pkg.UUID] = mapped_column(
         primary_key=True,
-        default=uuid.uuid4,
+        default=uuid_pkg.uuid4,
         nullable=False
     )
 

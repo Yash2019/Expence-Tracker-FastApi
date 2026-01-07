@@ -3,7 +3,7 @@ from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 from src.auth.models import User
 from src.auth.logic import get_user, get_pass_hash, authenticate_user, create_access_token
-from src.auth.schemas import Token, TokenData, UserRegistration
+from src.auth.schemas import UserRegistration
 import jwt
 from jwt.exceptions import InvalidTokenError
 from typing import Annotated
@@ -11,7 +11,7 @@ from fastapi import Depends, HTTPException, status
 from src.db.main import get_db
 from src.config import Config
 #-----------------------------------------------------------------------------------------------------------------------#
-oauth_scheme = OAuth2PasswordBearer(tokenUrl='Token')
+oauth_scheme = OAuth2PasswordBearer(tokenUrl='/api/v1/auth/login')
 password_hash = PasswordHash.recommended()
 
 def get_current_user(token: Annotated[str, Depends(oauth_scheme)],
@@ -65,8 +65,8 @@ def registration(user_create: UserRegistration, db: Session):
     db.refresh(new_user)
     return new_user
 
-def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
-    user =  authenticate_user(db, form_data.username, form_data.password)
+def login(db: Session, username: str, password: str):
+    user =  authenticate_user(db, username, password)
     if not user:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,

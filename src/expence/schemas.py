@@ -9,14 +9,14 @@ class ExpenceCreate(BaseModel):
     amount: Decimal
     category: str
     description: str
-    expence_date: datetime
+    expense_date: datetime
 
 class ExpenceRead(BaseModel):
     uuid: UUID
     amount: Decimal
     category: str
     description: str
-    expence_date: datetime
+    expense_date: datetime
     created_at: datetime
 
     class Config:
@@ -26,7 +26,7 @@ class ExpenceUpdate(BaseModel):
     amount: Decimal | None = Field(default=None, gt=0)
     category: str | None = None
     description: str | None = None
-    expence_date: datetime | None = None
+    expense_date: datetime | None = None
 
 class Token(BaseModel):
     access_token: str
